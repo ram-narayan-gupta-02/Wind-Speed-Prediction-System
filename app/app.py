@@ -18,7 +18,7 @@ def load_model():
 @st.cache_data
 def load_metrics():
     if os.path.exists(METRICS_PATH):
-        with open(METRICS_PATH, 'r') as f:
+        with open(METRICS_PATH, 'r', encoding='latin1') as f:
             return f.read()
     else:
         return "No metrics found."
