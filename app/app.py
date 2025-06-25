@@ -51,15 +51,15 @@ with st.form("input_form"):
     with col1:
         latitude = st.number_input("Latitude", format="%.4f")
         longitude = st.number_input("Longitude", format="%.4f")
-        elevation = st.number_input("Elevation (meters)", value=100.0)
+        elevation = st.number_input("Elevation (meters)", format="%.2f")
         temp = st.number_input("Temperature (°C)")
         dewp = st.number_input("Dew Point (°C)")
 
     with col2:
         slp = st.number_input("Sea-Level Pressure (SLP)", value=1013.25)
         stp = st.number_input("Station Pressure (STP)", value=1013.25)
-        mxspd = st.number_input("Max Wind Speed (MXSPD)", value=10.0)
-        gust = st.number_input("Gust Speed (GUST)", value=15.0)
+        mxspd = st.number_input("Max Wind Speed (MXSPD)", format="%.2f")
+        gust = st.number_input("Gust Speed (GUST)", format="%.2f")
 
     submit = st.form_submit_button("Predict Wind Speed")
 
