@@ -56,8 +56,8 @@ with st.form("input_form"):
         dewp = st.number_input("Dew Point (°C)")
 
     with col2:
-        slp = st.number_input("Sea-Level Pressure (SLP)", value=1013.25)
-        stp = st.number_input("Station Pressure (STP)", value=1013.25)
+        slp = st.number_input("Sea-Level Pressure (SLP)", format="%.2f")
+        stp = st.number_input("Station Pressure (STP)", format="%.2f")
         mxspd = st.number_input("Max Wind Speed (MXSPD)", format="%.2f")
         gust = st.number_input("Gust Speed (GUST)", format="%.2f")
 
