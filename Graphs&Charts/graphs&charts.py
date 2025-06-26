@@ -57,7 +57,7 @@ if 'MAX' in df.columns and 'MIN' in df.columns:
     plt.savefig(os.path.join(output_folder, 'max_min_temperature.png'))
     plt.close()
 
-### 6. Pairplot for Numerical Columns (Optional, Large)
+### 6. Pairplot for Numerical Columns
 numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns.tolist()
 if len(numeric_cols) >= 2:
     pairplot_df = df[numeric_cols].dropna().sample(min(5000, len(df)))  # Limit rows for speed
