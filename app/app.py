@@ -117,7 +117,7 @@ if submit:
     # --- Side-by-side: Feature Importance + Metrics ---
     col3, col4 = st.columns(2)
 
-     with col3:
+    with col3:
         if hasattr(model, "feature_importances_"):
             st.subheader("📌 Feature Importance")
             
