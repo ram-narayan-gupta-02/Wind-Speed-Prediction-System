@@ -140,8 +140,6 @@ if submit:
         st.code(load_metrics())
 
 # --- Footer ---
-
-# --- Footer ---
 st.markdown("""
 <hr>
 <div style='text-align: center; padding: 10px; font-size: 15px;'>
