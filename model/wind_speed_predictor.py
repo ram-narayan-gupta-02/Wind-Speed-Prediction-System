@@ -7,9 +7,9 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 import joblib
 
 # File paths
-FILE_PATH = r"D:\Python\project2\wind_data_combined_2016_2025.csv"
-MODEL_PATH = r"D:\Python\project2\model\wind_speed_model.pkl"
-METRICS_PATH = r"D:\Python\project2\model\metrics.txt"
+FILE_PATH = r"D:\Python\ADRDE_Project_Update\wind_data_combined_2016_2025.csv"
+MODEL_PATH = r"D:\Python\ADRDE_Project_Update\model\wind_speed_model.pkl"
+METRICS_PATH = r"D:\Python\ADRDE_Project_Update\model\metrics.txt"
 
 # Load CSV Data
 def load_data(file_path):
