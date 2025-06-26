@@ -117,27 +117,23 @@ if submit:
     # --- Side-by-side: Feature Importance + Metrics ---
     col3, col4 = st.columns(2)
 
-    with col3:
-    if hasattr(model, "feature_importances_"):
-        st.subheader("📌 Feature Importance")
+     with col3:
+        if hasattr(model, "feature_importances_"):
+            st.subheader("📌 Feature Importance")
+            
+            # Manually set features in correct order used during training
+            features = ['LATITUDE', 'LONGITUDE', 'ELEVATION', 'TEMP', 'DEWP', 'SLP', 'STP', 'MXSPD', 'GUST']
 
-        # Dynamically get feature names
-        try:
-            features = model.feature_names_in_
-        except AttributeError:
-            features = ['LATITUDE', 'LONGITUDE', 'ELEVATION', 'TEMP', 'DEWP', 'SLP', 'STP', 'MXSPD', 'GUST']  # Fallback if unavailable
+            importances = model.feature_importances_
 
-        importances = model.feature_importances_
+            # Sort for better visual
+            importance_df = pd.DataFrame({'Feature': features, 'Importance': importances})
+            importance_df = importance_df.sort_values(by='Importance', ascending=False)
 
-        # Safety check to avoid mismatch errors
-        if len(importances) == len(features):
             fig3, ax3 = plt.subplots(figsize=(5, 3))
-            sns.barplot(x=importances, y=features, palette='crest', ax=ax3)
+            sns.barplot(data=importance_df, x='Importance', y='Feature', palette='crest', ax=ax3)
             ax3.set_title("Feature Importance")
-            st.pyplot(fig3)
-        else:
-            st.warning("⚠️ Feature list and importances length mismatch. Please check model and feature names.")
-
+            st.pyplot(fig3)  
 
     with col4:
         st.subheader("📄 Model Metrics")
