@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wind Speed Predictor | ADRDE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #0f172a, #1e293b);
+            color: #f1f5f9;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #1e293b;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header img {
+            height: 60px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-top: 10px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero img {
+            max-width: 150px;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .description {
+            max-width: 800px;
+            margin: auto;
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            padding: 0 20px;
+        }
+
+        .launch-button {
+            display: inline-block;
+            margin-top: 30px;
+            background-color: #0ea5e9;
+            color: white;
+            padding: 14px 30px;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .launch-button:hover {
+            background-color: #0284c7;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #1e293b;
+            color: #94a3b8;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Defence_Research_and_Development_Organisation.svg/1200px-Defence_Research_and_Development_Organisation.svg.png"
+            alt="DRDO Logo">
+        <h1>Wind Speed Prediction System</h1>
+    </header>
+
+    <div class="hero">
+        <img src="https://www.noaa.gov/sites/default/files/2022-03/noaa_digital_logo-2022.png" alt="NOAA Logo">
+        <div class="description">
+            <p>
+                This AI-powered platform by <strong>ADRDE (DRDO)</strong> predicts wind speed using NOAA’s 
+                historical atmospheric data (2016–2025). Built with advanced machine learning, it forecasts
+                wind conditions based on past patterns,aiding applications in aerospace, weather forecasting,
+                and defense systems.Users can input past wind values to receive accurate predictions across 
+                different components, with results displayed in both <strong>m/s</strong> and <strong>km/h</strong>.
+            </p>
+
+            <a class="launch-button" href="https://wind-speed-prediction-system.streamlit.app/"
+                target="_blank">🚀 Launch Prediction App</a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 ADRDE, DRDO | Wind Prediction Model | NOAA Data-Driven
+    </footer>
+</body>
+
+</html>
