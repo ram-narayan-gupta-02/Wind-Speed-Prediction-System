@@ -108,7 +108,7 @@ The model utilizes historical atmospheric data with features like:
 
 **Ram Narayan Gupta**  
 📧 [ramnrngupta@gmail.com](mailto:ramnrngupta@gmail.com)  
-🌐 [LinkedIn Profile](https://www.linkedin.com/in/ramnrngupta)  
+🌐 [LinkedIn Profile](https://www.linkedin.com/in/ram-narayan-gupta)  
 
 ---
 
