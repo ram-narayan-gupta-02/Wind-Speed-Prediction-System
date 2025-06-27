@@ -89,15 +89,6 @@ The model utilizes historical atmospheric data with features like:
 
 ---
 
-## 📷 Screenshots
-
-<p float="left">
-  <img src="app/images/input_form.png" width="45%" />
-  <img src="app/images/prediction_output.png" width="45%" />
-</p>
-
----
-
 ## ⚡ Future Enhancements
 
 - Incorporate real-time weather API support  
