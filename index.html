@@ -14,37 +14,42 @@
     }
     header {
       background-color: #1e293b;
-      padding: 30px 20px 20px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      text-align: center;
     }
     header img.logo {
-      height: 60px;
-      vertical-align: middle;
-      margin-right: 15px;
+      height: 50px;
+      max-width: 100%;
     }
     header h1 {
-      display: inline-block;
-      vertical-align: middle;
+      font-size: 1.8rem;
       margin: 0;
-      font-size: 2rem;
     }
     .hero {
-      margin: 40px 0;
+      margin: 30px 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
     }
     .hero img {
-      max-height: 180px;
+      max-height: 160px;
+      width: auto;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      max-width: 90%;
     }
     .btn {
       display: inline-block;
-      margin: 30px 0;
+      margin: 25px 0;
       background-color: #0ea5e9;
       color: white;
-      padding: 14px 30px;
+      padding: 12px 25px;
       border-radius: 8px;
       font-size: 16px;
       text-decoration: none;
@@ -58,22 +63,89 @@
       margin: auto;
       padding: 0 20px;
       color: #cbd5e1;
-      line-height: 1.7;
+      line-height: 1.6;
       font-size: 1.1rem;
     }
+    h2 {
+      margin-top: 50px;
+      font-size: 1.5rem;
+    }
+    p {
+      padding: 0 15px;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    .gallery img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+    .gallery img:hover {
+      transform: scale(1.03);
+    }
     footer {
-      margin-top: 60px;
-      padding: 20px 0;
+      margin-top: 50px;
+      padding: 15px 0;
       font-size: 0.9rem;
       color: #94a3b8;
       background-color: #1e293b;
+    }
+
+    /* Media Queries for better responsiveness */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+      }
+      header h1 {
+        font-size: 1.5rem;
+      }
+      .description {
+        font-size: 1rem;
+      }
+      .hero img {
+        max-height: 120px;
+      }
+      .btn {
+        padding: 10px 20px;
+        font-size: 15px;
+      }
+      h2 {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero img {
+        max-height: 100px;
+      }
+      header h1 {
+        font-size: 1.3rem;
+      }
+      .btn {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
+      .description {
+        font-size: 0.95rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <img class="logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Defence_Research_and_Development_Organisation.svg/1200px-Defence_Research_and_Development_Organisation.svg.png" alt="DRDO Logo"><br>
+    <img class="logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Defence_Research_and_Development_Organisation.svg/1200px-Defence_Research_and_Development_Organisation.svg.png" alt="DRDO Logo">
     <h1>Wind Speed Prediction System</h1>
   </header>
 
@@ -83,52 +155,40 @@
     </section>
 
     <p class="description">
-  📡 <strong>Wind Speed Prediction System</strong><br>
-  Built for <strong>ADRDE/DRDO</strong>, this advanced ML model utilizes <strong>10 years of NOAA atmospheric data</strong> to provide highly accurate wind speed forecasts.<br>
-  🛰️ Designed for <strong>aerospace, weather research, and safety-critical planning</strong>, it offers reliable insights for mission success and scientific exploration.<br>
-</p>
+      📡 <strong>Wind Speed Prediction System</strong><br>
+      Built for <strong>ADRDE/DRDO</strong>, this advanced ML model utilizes <strong>10 years of NOAA atmospheric data</strong> to provide highly accurate wind speed forecasts.<br>
+      🛰️ Designed for <strong>aerospace, weather research, and safety-critical planning</strong>, it offers reliable insights for mission success and scientific exploration.<br>
+    </p>
 
     <a class="btn" href="https://wind-speed-prediction-system.streamlit.app/" target="_blank">🚀 Launch Wind Prediction App</a>
   </main>
 
-<h2>📊 Visualization of Data</h2>
-<p>Click on any graph below to view it in full size:</p>
+  <h2>📊 Visualization of Data</h2>
+  <p>Click on any graph below to view it in full size:</p>
 
-<div style="
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-">
-
+  <div class="gallery">
     <a href="Graphs&Charts/images/correlation_heatmap.png" target="_blank">
-        <img src="Graphs&Charts/images/correlation_heatmap.png" alt="Correlation Heatmap" style="width: 100%; height: auto;">
+      <img src="Graphs&Charts/images/correlation_heatmap.png" alt="Correlation Heatmap">
     </a>
-
     <a href="Graphs&Charts/images/station_location.png" target="_blank">
-        <img src="Graphs&Charts/images/station_location.png" alt="Station Location" style="width: 100%; height: auto;">
+      <img src="Graphs&Charts/images/station_location.png" alt="Station Location">
     </a>
-
     <a href="Graphs&Charts/images/elevation_distribution.png" target="_blank">
-        <img src="Graphs&Charts/images/elevation_distribution.png" alt="Elevation Distribution" style="width: 100%; height: auto;">
+      <img src="Graphs&Charts/images/elevation_distribution.png" alt="Elevation Distribution">
     </a>
-
     <a href="Graphs&Charts/images/wind_speed_distribution.png" target="_blank">
-        <img src="Graphs&Charts/images/wind_speed_distribution.png" alt="Wind Speed Distribution" style="width: 100%; height: auto;">
+      <img src="Graphs&Charts/images/wind_speed_distribution.png" alt="Wind Speed Distribution">
     </a>
-
     <a href="Graphs&Charts/images/max_min_temperature.png" target="_blank">
-        <img src="Graphs&Charts/images/max_min_temperature.png" alt="Max/Min Temperature" style="width: 100%; height: auto;">
+      <img src="Graphs&Charts/images/max_min_temperature.png" alt="Max/Min Temperature">
     </a>
-
     <a href="Graphs&Charts/images/temperature_trend.png" target="_blank">
-        <img src="Graphs&Charts/images/temperature_trend.png" alt="Temperature Trend" style="width: 100%; height: auto;">
+      <img src="Graphs&Charts/images/temperature_trend.png" alt="Temperature Trend">
     </a>
-
     <a href="Graphs&Charts/images/pairplot.png" target="_blank">
-        <img src="Graphs&Charts/images/pairplot.png" alt="Pairplot" style="width: 100px; height: auto;">
+      <img src="Graphs&Charts/images/pairplot.png" alt="Pairplot">
     </a>
-
-</div>
+  </div>
 
   <footer>
     &copy; 2025 Aerial Delivery Research & Development Establishment (ADRDE), DRDO
