@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="system">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -63,16 +63,43 @@
       position: absolute;
       top: 15px;
       right: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
     }
 
-    .theme-toggle select {
-      padding: 6px 10px;
-      border-radius: 5px;
-      border: none;
-      font-size: 0.95rem;
-      background: var(--button-bg);
-      color: white;
-      cursor: pointer;
+    .theme-toggle input {
+      display: none;
+    }
+
+    .toggle-slider {
+      width: 50px;
+      height: 26px;
+      background: #475569;
+      border-radius: 50px;
+      position: relative;
+      transition: background 0.3s ease;
+    }
+
+    .toggle-slider::before {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      background: white;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.3s ease;
+    }
+
+    input:checked + .toggle-slider {
+      background: #facc15;
+    }
+
+    input:checked + .toggle-slider::before {
+      transform: translateX(24px);
     }
 
     .hero {
@@ -203,11 +230,8 @@
     <h1>Wind Speed Prediction System</h1>
 
     <div class="theme-toggle">
-      <select id="theme-select">
-        <option value="system">System Default</option>
-        <option value="light">Light Mode</option>
-        <option value="dark">Dark Mode</option>
-      </select>
+      <input type="checkbox" id="toggle-theme">
+      <div class="toggle-slider"></div>
     </div>
   </header>
 
@@ -257,29 +281,22 @@
   </footer>
 
   <script>
-    const themeSelect = document.getElementById('theme-select');
+    const themeToggle = document.getElementById('toggle-theme');
     const root = document.documentElement;
 
-    function applyTheme(value) {
-      if (value === 'system') {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-      } else {
-        root.setAttribute('data-theme', value);
-      }
-    }
+    // Detect system preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    themeToggle.checked = prefersDark;
 
-    themeSelect.addEventListener('change', (e) => {
-      applyTheme(e.target.value);
+    themeToggle.addEventListener('change', () => {
+      root.setAttribute('data-theme', themeToggle.checked ? 'dark' : 'light');
     });
 
-    // Apply system theme initially
-    applyTheme('system');
-
-    // Listen to system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-      if (themeSelect.value === 'system') {
-        applyTheme('system');
+    // Listen to system preference changes if no manual toggle
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!themeToggle.checked) {
+        root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
       }
     });
   </script>
