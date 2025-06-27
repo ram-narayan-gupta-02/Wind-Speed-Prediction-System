@@ -1,19 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="system">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Wind Speed Predictor – ADRDE (DRDO)</title>
   <style>
-    body {
+    :root {
+      --bg-color: #0f172a;
+      --text-color: #f8fafc;
+      --header-bg: #1e293b;
+      --card-bg: #1e293b;
+      --button-bg: #0ea5e9;
+      --button-hover: #0284c7;
+      --secondary-text: #cbd5e1;
+      --footer-text: #94a3b8;
+    }
+
+    [data-theme="light"] {
+      --bg-color: #f1f5f9;
+      --text-color: #0f172a;
+      --header-bg: #e2e8f0;
+      --card-bg: #fff;
+      --button-bg: #0ea5e9;
+      --button-hover: #0284c7;
+      --secondary-text: #334155;
+      --footer-text: #475569;
+    }
+
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: "Segoe UI", sans-serif;
-      background: #0f172a;
-      color: #f8fafc;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s ease, color 0.3s ease;
       text-align: center;
     }
+
     header {
-      background-color: #1e293b;
+      background-color: var(--header-bg);
       padding: 20px;
       display: flex;
       flex-wrap: wrap;
@@ -21,15 +46,35 @@
       justify-content: center;
       gap: 15px;
       text-align: center;
+      position: relative;
     }
+
     header img.logo {
       height: 50px;
       max-width: 100%;
     }
+
     header h1 {
       font-size: 1.8rem;
       margin: 0;
     }
+
+    .theme-toggle {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+    .theme-toggle select {
+      padding: 6px 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 0.95rem;
+      background: var(--button-bg);
+      color: white;
+      cursor: pointer;
+    }
+
     .hero {
       margin: 30px 0;
       display: flex;
@@ -37,6 +82,7 @@
       justify-content: center;
       gap: 20px;
     }
+
     .hero img {
       max-height: 160px;
       width: auto;
@@ -44,10 +90,11 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
       max-width: 90%;
     }
+
     .btn {
       display: inline-block;
       margin: 25px 0;
-      background-color: #0ea5e9;
+      background-color: var(--button-bg);
       color: white;
       padding: 12px 25px;
       border-radius: 8px;
@@ -55,24 +102,29 @@
       text-decoration: none;
       transition: background 0.3s ease;
     }
+
     .btn:hover {
-      background-color: #0284c7;
+      background-color: var(--button-hover);
     }
+
     .description {
       max-width: 700px;
       margin: auto;
       padding: 0 20px;
-      color: #cbd5e1;
+      color: var(--secondary-text);
       line-height: 1.6;
       font-size: 1.1rem;
     }
+
     h2 {
       margin-top: 50px;
       font-size: 1.5rem;
     }
+
     p {
       padding: 0 15px;
     }
+
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -81,6 +133,7 @@
       margin: 20px auto;
       padding: 0 15px;
     }
+
     .gallery img {
       width: 100%;
       height: auto;
@@ -88,18 +141,19 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.4);
       transition: transform 0.3s ease;
     }
+
     .gallery img:hover {
       transform: scale(1.03);
     }
+
     footer {
       margin-top: 50px;
       padding: 15px 0;
       font-size: 0.9rem;
-      color: #94a3b8;
-      background-color: #1e293b;
+      color: var(--footer-text);
+      background-color: var(--header-bg);
     }
 
-    /* Media Queries for better responsiveness */
     @media (max-width: 768px) {
       header {
         flex-direction: column;
@@ -147,6 +201,14 @@
   <header>
     <img class="logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Defence_Research_and_Development_Organisation.svg/1200px-Defence_Research_and_Development_Organisation.svg.png" alt="DRDO Logo">
     <h1>Wind Speed Prediction System</h1>
+
+    <div class="theme-toggle">
+      <select id="theme-select">
+        <option value="system">System Default</option>
+        <option value="light">Light Mode</option>
+        <option value="dark">Dark Mode</option>
+      </select>
+    </div>
   </header>
 
   <main>
@@ -193,6 +255,34 @@
   <footer>
     &copy; 2025 Aerial Delivery Research & Development Establishment (ADRDE), DRDO
   </footer>
+
+  <script>
+    const themeSelect = document.getElementById('theme-select');
+    const root = document.documentElement;
+
+    function applyTheme(value) {
+      if (value === 'system') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+      } else {
+        root.setAttribute('data-theme', value);
+      }
+    }
+
+    themeSelect.addEventListener('change', (e) => {
+      applyTheme(e.target.value);
+    });
+
+    // Apply system theme initially
+    applyTheme('system');
+
+    // Listen to system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (themeSelect.value === 'system') {
+        applyTheme('system');
+      }
+    });
+  </script>
 
 </body>
 </html>
