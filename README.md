@@ -13,8 +13,7 @@ The **Wind Speed Prediction System** is a machine learning-powered platform desi
 
 ## 🎯 Features
 
-✅ Predict wind speed for altitudes ranging from **0 to 22 km**  
-✅ Accepts past wind values and atmospheric parameters as inputs  
+✅ Predict wind speed for different paramters
 ✅ Supports input in **m/s** and **km/h**  
 ✅ Provides output in both **m/s** and **km/h**  
 ✅ Visualizes trends with interactive charts  
