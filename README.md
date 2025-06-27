@@ -37,12 +37,17 @@ The **Wind Speed Prediction System** is a machine learning-powered platform desi
 ```
 Wind-Speed-Prediction-System/
 │
-├── model/              # Model training and prediction scripts
-├── app/                   # Streamlit front-end
-├── data/                  # Processed data files
-├── Graphs&Charts/         # Visualization outputs
-├── README.md               # Project documentation
-└── requirements.txt        # Project dependencies
+├── model/                      # Model training and prediction scripts
+|   ├──metrics.txt       
+|   ├──wind_speed_model.pkl
+|   └──wind_speed_predictor.py             
+├── app/                        # Streamlit front-end
+|   └──app.py                  
+├── Graphs&Charts/              # Visualization outputs
+|   ├──images/
+|   └──graphs&charts.py    
+├── README.md                   # Project documentation
+└── requirements.txt            # Project dependencies
 ```
 
 ---
