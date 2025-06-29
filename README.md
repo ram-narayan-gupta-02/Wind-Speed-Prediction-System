@@ -7,7 +7,9 @@
 
 ## 📖 Overview
 
-The **Wind Speed Prediction System** is a machine learning-powered platform designed to predict wind speed based on historical atmospheric data. This tool is particularly useful for applications in aerospace, research, and meteorology, providing wind speed forecasts, helping with safety assessments and planning.
+The **Wind Speed Prediction System** is a machine learning-powered platform designed to predict wind speed based on historical atmospheric data. 
+![Wind Speed Prediction Model](wind-turbine.jpg)
+This tool is particularly useful for applications in aerospace, research, and meteorology, providing wind speed forecasts, helping with safety assessments and planning.
 
 ---
 
