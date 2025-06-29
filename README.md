@@ -26,7 +26,7 @@ This tool is particularly useful for applications in aerospace, research, and me
 
 ## 🛠️ Technology Stack
 
-- **Python 3.10+**  
+- **Python 3.13+**  
 - **Streamlit** for interactive web UI  
 - **scikit-learn** for machine learning  
 - **Pandas, NumPy** for data handling  
