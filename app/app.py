@@ -38,7 +38,7 @@ def predict_wind_speed(model, input_data):
 st.markdown("""
     <div style='text-align: center;'>
         <img src='https://cdn-icons-png.flaticon.com/512/1117/1117466.png' width='100'>
-        <h1>🌬️ Wind Speed Prediction</h1>    
+        <h1>🌬️ Wind Speed Prediction System</h1>    
         <p>Predict wind speed using different components — outputs in m/s and km/h</p>
     </div>
     <hr>
