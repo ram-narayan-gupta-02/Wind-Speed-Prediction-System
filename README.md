@@ -44,10 +44,7 @@ Wind-Speed-Prediction-System/
 |   ├──wind_speed_model.pkl
 |   └──wind_speed_predictor.py             
 ├── app/                        # Streamlit front-end
-|   └──app.py                  
-├── Graphs&Charts/              # Visualization outputs
-|   ├──images/
-|   └──graphs&charts.py    
+|   └──app.py                   
 ├── README.md                   # Project documentation
 └── requirements.txt            # Project dependencies
 ```
