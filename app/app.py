@@ -1,151 +1,103 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import joblib
-import os
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# File paths
-MODEL_PATH = "model/wind_speed_model.pkl"
-METRICS_PATH = "model/metrics.txt"
-
-# Load model and metrics
-@st.cache_resource
-def load_model():
-    return joblib.load(MODEL_PATH)
-
-@st.cache_data
-def load_metrics():
-    if os.path.exists(METRICS_PATH):
-        with open(METRICS_PATH, 'r', encoding='latin1') as f:
-            return f.read()
-    else:
-        return "No metrics found."
-
-# Wind speed prediction
-def predict_wind_speed(model, input_data):
-    df = pd.DataFrame([input_data])
-    prediction_knots = model.predict(df)[0]
-    prediction_mps = prediction_knots * 0.514444
-    prediction_kph = prediction_mps * 3.6
-    return prediction_mps, prediction_kph
+import pickle
 
 
-# --- Streamlit UI ---
+indian_cities = {
+    "New Delhi": (28.6139, 77.2090),
+    "Agra": (27.1767, 78.0081),
+    "Mumbai": (19.0760, 72.8777),
+    "Bangalore": (12.9716, 77.5946),
+    "Kolkata": (22.5726, 88.3639),
+    "Chennai": (13.0827, 80.2707),
+    "Hyderabad": (17.3850, 78.4867),
+    "Jaipur": (26.9124, 75.7873),
+    "Pune": (18.5204, 73.8567),
+    "Ahmedabad": (23.0225, 72.5714),
+    "Surat": (21.1702, 72.8311),
+    "Lucknow": (26.8467, 80.9462),
+    "Kanpur": (26.4499, 80.3319),
+    "Nagpur": (21.1458, 79.0882),
+    "Bhopal": (23.2599, 77.4126),
+    "Indore": (22.7196, 75.8577),
+    "Patna": (25.5941, 85.1376),
+    "Varanasi": (25.3176, 82.9739),
+    "Amritsar": (31.6340, 74.8723),
+    "Chandigarh": (30.7333, 76.7794),
+    "Visakhapatnam": (17.6868, 83.2185),
+    "Coimbatore": (11.0168, 76.9558),
+    "Thiruvananthapuram": (8.5241, 76.9366),
+    "Madurai": (9.9252, 78.1198),
+    "Mysore": (12.2958, 76.6394),
+    "Dehradun": (30.3165, 78.0322),
+    "Shimla": (31.1048, 77.1734),
+    "Ranchi": (23.3441, 85.3096),
+    "Guwahati": (26.1445, 91.7362),
+    "Shillong": (25.5788, 91.8933),
+    "Itanagar": (27.0844, 93.6053),
+    "Gangtok": (27.3314, 88.6138),
+    "Imphal": (24.8170, 93.9368),
+    "Aizawl": (23.7271, 92.7176),
+    "Kohima": (25.6701, 94.1077),
+    "Panaji": (15.4909, 73.8278),
+    "Puducherry": (11.9416, 79.8083),
+}
 
-# --- Title with Logo ---
-st.markdown("""
-    <div style='text-align: center;'>
-        <img src='https://cdn-icons-png.flaticon.com/512/1117/1117466.png' width='100'>
-        <h1>🌬️ Wind Speed Prediction System</h1>    
-        <p>Predict wind speed using different components — outputs in m/s and km/h</p>
-    </div>
-    <hr>
-""", unsafe_allow_html=True)
+# ----------------- Load Trained Model -----------------
+st.sidebar.header("⚙️ Model Status")
 
-# --- Input Form ---
-with st.form("input_form"):
-    col1, col2 = st.columns(2)
+try:
+    with open("model/wind_speed_model.pkl", "rb") as f:
+        model = pickle.load(f)
+    st.sidebar.success("Model loaded successfully ✅")
+except FileNotFoundError:
+    st.sidebar.error("Model file not found! Please check 'model/wind_speed_model.pkl'")
+    st.stop()
 
-    with col1:
-        latitude = st.number_input("Latitude", format="%.4f")
-        longitude = st.number_input("Longitude", format="%.4f")
-        elevation = st.number_input("Elevation (meters)", format="%.2f")
-        temp = st.number_input("Temperature (°C)")
-        dewp = st.number_input("Dew Point (°C)")
+# ----------------- Streamlit UI -----------------
+st.title("🌬️ Wind Speed Prediction App")
+st.write("Select a city or enter coordinates manually to predict wind speed:")
 
-    with col2:
-        slp = st.number_input("Sea-Level Pressure (SLP)", format="%.2f")
-        stp = st.number_input("Station Pressure (STP)", format="%.2f")
-        mxspd = st.number_input("Max Wind Speed (MXSPD)", format="%.2f")
-        gust = st.number_input("Gust Speed (GUST)", format="%.2f")
+# ----------------- City Suggestion Dropdown -----------------
+selected_city = st.selectbox("🏙️ Select Indian City (optional)", ["Select"] + list(indian_cities.keys()))
 
-    submit = st.form_submit_button("Predict Wind Speed")
+if selected_city != "Select":
+    st.session_state["lat"] = indian_cities[selected_city][0]
+    st.session_state["lon"] = indian_cities[selected_city][1]
 
-# --- Predict and Display ---
-if submit:
-    model = load_model()
+# ----------------- Input Fields -----------------
+lat = st.number_input("🌍 Latitude (°)", min_value=-90.0, max_value=90.0, value=st.session_state.get("lat", 00.0), step=0.1, key="lat_input")
+lon = st.number_input("🌐 Longitude (°)", min_value=-180.0, max_value=180.0, value=st.session_state.get("lon", 00.0), step=0.1, key="lon_input")
+altitude = st.number_input("🗻 Altitude (meters)", min_value=0.0, max_value=22000.0, value=0.0, step=100.0)
+month = st.number_input("📅 Month (1-12)", min_value=1, max_value=12, value=7)
+year = st.number_input("🗓️ Year", min_value=1948, max_value=2100, value=2025)
 
-    input_data = {
-        'LATITUDE': latitude,
-        'LONGITUDE': longitude,
-        'ELEVATION': elevation,
-        'TEMP': temp,
-        'DEWP': dewp,
-        'SLP': slp,
-        'STP': stp,
-        'MXSPD': mxspd,
-        'GUST': gust
-    }
+# ----------------- Prediction Button -----------------
+if st.button("🔮 Predict Wind Speed"):
+    
+    input_data = pd.DataFrame({
+        'lat': [lat],
+        'lon': [lon],
+        'altitude': [altitude],
+        'month': [month],
+        'year': [year]
+    })
 
-    mps, kph = predict_wind_speed(model, input_data)
+    try:
+        wind_speed = model.predict(input_data)[0]
 
-    st.success("✅ Prediction Complete!")
-    st.metric(label="Wind Speed (m/s)", value=f"{mps:.2f}")
-    st.metric(label="Wind Speed (km/h)", value=f"{kph:.2f}")
+        st.success(f"🌪️ Predicted Wind Speed: **{wind_speed:.2f} m/s**")
+        st.info(f"⚡ Equivalent Wind Speed: **{wind_speed * 3.6:.2f} km/h**")
 
-    # --- Chart Section
-    st.subheader("📊 Wind Speed Visualization")
-    col1, col2 = st.columns(2)
+    except Exception as e:
+        st.error(f"Prediction failed: {e}")
 
-    with col1:
-        st.markdown("**Bar Chart (m/s vs km/h)**")
-        fig1, ax1 = plt.subplots(figsize=(4, 3))
-        units = ['m/s', 'km/h']
-        values = [mps, kph]
-        sns.barplot(x=units, y=values, palette='coolwarm', ax=ax1)
-        ax1.set_ylabel("Speed")
-        ax1.set_title("Predicted Wind Speed")
-        st.pyplot(fig1)
 
-    with col2:
-        st.markdown("**Simulated Real vs Predicted Line Chart**")
-        steps = list(range(1, 6))
-        real = [mps + np.random.uniform(-0.5, 0.5) for _ in steps]
-        predicted = [mps for _ in steps]
+st.sidebar.header("📊 Model Performance")
 
-        fig2, ax2 = plt.subplots(figsize=(4, 3))
-        ax2.plot(steps, real, label='Real', marker='o')
-        ax2.plot(steps, predicted, label='Predicted', marker='x')
-        ax2.set_title("Simulated Trend")
-        ax2.set_xlabel("Steps")
-        ax2.set_ylabel("Speed (m/s)")
-        ax2.legend()
-        st.pyplot(fig2)
-
-    # --- Side-by-side: Feature Importance + Metrics ---
-    col3, col4 = st.columns(2)
-
-    with col3:
-        if hasattr(model, "feature_importances_"):
-            st.subheader("📌 Feature Importance")
-            
-            # Manually set features in correct order used during training
-            features = ['LATITUDE', 'LONGITUDE', 'ELEVATION', 'TEMP', 'DEWP', 'SLP', 'STP', 'MXSPD', 'GUST']
-
-            importances = model.feature_importances_
-
-            # Sort for better visual
-            importance_df = pd.DataFrame({'Feature': features, 'Importance': importances})
-            importance_df = importance_df.sort_values(by='Importance', ascending=False)
-
-            fig3, ax3 = plt.subplots(figsize=(5, 3))
-            sns.barplot(data=importance_df, x='Importance', y='Feature', palette='crest', ax=ax3)
-            ax3.set_title("Feature Importance")
-            st.pyplot(fig3)  
-
-    with col4:
-        st.subheader("📄 Model Metrics")
-        st.code(load_metrics())
-
-# --- Footer ---
-st.markdown("""
-<hr>
-<div style='text-align: center; padding: 10px; font-size: 15px;'>
-    🛰️ Internship Project <b>@ ADRDE, DRDO</b>
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("---")
-# st.markdown("Made by **Ram Narayan Gupta** | Internship Project @ DRDO ADRDE")
+try:
+    with open("model/metrics.txt", "r") as f:
+        metrics = f.read()
+    st.sidebar.text(metrics)
+except FileNotFoundError:
+    st.sidebar.warning("Model metrics file not found.")
