@@ -1,0 +1,3 @@
+Mean Squared Error: 7.10
+Mean Absolute Error (MAE): 1.90 m/s
+R² Score: 0.93
