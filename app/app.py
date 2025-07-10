@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
-import pickle
+import joblib
+import time
 
-
-indian_cities = {
+# 🗺️ Indian city coordinates
+indian_cities = dict(sorted({
     "New Delhi": (28.6139, 77.2090),
     "Agra": (27.1767, 78.0081),
     "Mumbai": (19.0760, 72.8777),
@@ -41,63 +42,59 @@ indian_cities = {
     "Kohima": (25.6701, 94.1077),
     "Panaji": (15.4909, 73.8278),
     "Puducherry": (11.9416, 79.8083),
-}
+}.items()))
 
-# ----------------- Load Trained Model -----------------
-st.sidebar.header("⚙️ Model Status")
 
-try:
-    with open("model/wind_speed_model.pkl", "rb") as f:
-        model = pickle.load(f)
-    st.sidebar.success("Model loaded successfully ✅")
-except FileNotFoundError:
-    st.sidebar.error("Model file not found! Please check 'model/wind_speed_model.pkl'")
-    st.stop()
+# 📦 Load trained model
+model = joblib.load("model/wind_speed_model.pkl")
 
-# ----------------- Streamlit UI -----------------
+# 📊 Load model metrics
+def load_metrics():
+    try:
+        with open("model/metrics.txt", "r", encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        return "⚠️ Metrics file not found."
+
+# 🎨 Streamlit UI setup
+st.set_page_config(page_title="🌬️ Wind Speed Predictor", layout="centered")
 st.title("🌬️ Wind Speed Prediction App")
-st.write("Select a city or enter coordinates manually to predict wind speed:")
+st.markdown("Predict wind speed (**km/h**) using coordinates, altitude, and date.")
 
-# ----------------- City Suggestion Dropdown -----------------
-selected_city = st.selectbox("🏙️ Select Indian City (optional)", ["Select"] + list(indian_cities.keys()))
+# 🔢 Two-column layout
+col1, col2 = st.columns(2)
 
-if selected_city != "Select":
-    st.session_state["lat"] = indian_cities[selected_city][0]
-    st.session_state["lon"] = indian_cities[selected_city][1]
+with col1:
+    use_city = st.checkbox("Use Indian City 🏙️", value=True)
+    if use_city:
+        city = st.selectbox("Choose City", list(indian_cities.keys()), index=0)
+        lat, lon = indian_cities[city]
+    else:
+        lat = st.number_input("Latitude (°)", -90.0, 90.0, 28.61)
+        lon = st.number_input("Longitude (°)", -180.0, 180.0, 77.21)
 
-# ----------------- Input Fields -----------------
-lat = st.number_input("🌍 Latitude (°)", min_value=-90.0, max_value=90.0, value=st.session_state.get("lat", 00.0), step=0.1, key="lat_input")
-lon = st.number_input("🌐 Longitude (°)", min_value=-180.0, max_value=180.0, value=st.session_state.get("lon", 00.0), step=0.1, key="lon_input")
-altitude = st.number_input("🗻 Altitude (meters)", min_value=0.0, max_value=22000.0, value=0.0, step=100.0)
-month = st.number_input("📅 Month (1-12)", min_value=1, max_value=12, value=7)
-year = st.number_input("🗓️ Year", min_value=1948, max_value=2100, value=2025)
+    alt = st.number_input("Altitude (m)", min_value=0, max_value=30000, value=0, step=100)
 
-# ----------------- Prediction Button -----------------
-if st.button("🔮 Predict Wind Speed"):
-    
-    input_data = pd.DataFrame({
+with col2:
+    year = st.number_input("Year", min_value=2020, max_value=2100, value=2025)
+    month = st.number_input("Month", min_value=1, max_value=12, value=7)
+    day = st.number_input("Day", min_value=1, max_value=31, value=14)
+
+# 🔮 Predict button
+if st.button("🔍 Predict Wind Speed"):
+    input_df = pd.DataFrame({
         'lat': [lat],
         'lon': [lon],
-        'altitude': [altitude],
+        'altitude_m': [alt],
+        'year': [year],
         'month': [month],
-        'year': [year]
+        'day': [day]
     })
 
-    try:
-        wind_speed = model.predict(input_data)[0]
+    with st.spinner("🌀 Predicting wind speed..."):
+        time.sleep(1.5)
+        prediction = model.predict(input_df)[0]
+        speed_kmh = prediction * 3.6
 
-        st.success(f"🌪️ Predicted Wind Speed: **{wind_speed:.2f} m/s**")
-        st.info(f"⚡ Equivalent Wind Speed: **{wind_speed * 3.6:.2f} km/h**")
-
-    except Exception as e:
-        st.error(f"Prediction failed: {e}")
-
-
-st.sidebar.header("📊 Model Performance")
-
-try:
-    with open("model/metrics.txt", "r") as f:
-        metrics = f.read()
-    st.sidebar.text(metrics)
-except FileNotFoundError:
-    st.sidebar.warning("Model metrics file not found.")
+    st.success(f"🌪️ Predicted Wind Speed: **{speed_kmh:.2f} km/h**")
+    st.info("📈 Model Evaluation Metrics:\n\n" + load_metrics())
