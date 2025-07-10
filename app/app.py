@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 import time
 
-# 🗺️ Indian city coordinates
+# 🗺️ Sorted Indian city coordinates
 indian_cities = dict(sorted({
     "New Delhi": (28.6139, 77.2090),
     "Agra": (27.1767, 78.0081),
@@ -44,22 +44,13 @@ indian_cities = dict(sorted({
     "Puducherry": (11.9416, 79.8083),
 }.items()))
 
-
-# 📦 Load trained model
+# 📦 Load the trained model
 model = joblib.load("model/wind_speed_model.pkl")
 
-# 📊 Load model metrics
-def load_metrics():
-    try:
-        with open("model/metrics.txt", "r", encoding="utf-8") as f:
-            return f.read()
-    except FileNotFoundError:
-        return "⚠️ Metrics file not found."
-
-# 🎨 Streamlit UI setup
+# 🎨 Streamlit UI
 st.set_page_config(page_title="🌬️ Wind Speed Predictor", layout="centered")
 st.title("🌬️ Wind Speed Prediction App")
-st.markdown("Predict wind speed (**km/h**) using coordinates, altitude, and date.")
+st.markdown("Predict wind speed (**km/h** and **m/s**) using coordinates, altitude, and date.")
 
 # 🔢 Two-column layout
 col1, col2 = st.columns(2)
@@ -72,8 +63,7 @@ with col1:
     else:
         lat = st.number_input("Latitude (°)", -90.0, 90.0, 28.61)
         lon = st.number_input("Longitude (°)", -180.0, 180.0, 77.21)
-
-    alt = st.number_input("Altitude (m)", min_value=0, max_value=30000, value=0, step=100)
+    alt = st.number_input("Altitude (m)", min_value=0, max_value=30000, value=1500, step=100)
 
 with col2:
     year = st.number_input("Year", min_value=2020, max_value=2100, value=2025)
@@ -93,8 +83,7 @@ if st.button("🔍 Predict Wind Speed"):
 
     with st.spinner("🌀 Predicting wind speed..."):
         time.sleep(1.5)
-        prediction = model.predict(input_df)[0]
-        speed_kmh = prediction * 3.6
+        prediction_mps = model.predict(input_df)[0]
+        prediction_kmph = prediction_mps * 3.6
 
-    st.success(f"🌪️ Predicted Wind Speed: **{speed_kmh:.2f} km/h**")
-    st.info("📈 Model Evaluation Metrics:\n\n" + load_metrics())
+    st.success(f"🌪️ Predicted Wind Speed:\n\n📌 **{prediction_mps:.2f} m/s**  \n🚗 **{prediction_kmph:.2f} km/h**")
