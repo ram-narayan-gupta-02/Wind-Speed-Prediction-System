@@ -63,7 +63,7 @@ with col1:
     else:
         lat = st.number_input("Latitude (°)", -90.0, 90.0, 28.61)
         lon = st.number_input("Longitude (°)", -180.0, 180.0, 77.21)
-    alt = st.number_input("Altitude (m)", min_value=0, max_value=30000, value=1500, step=100)
+    alt = st.number_input("Altitude (m)", min_value=0, max_value=30000, value=0, step=100)
 
 with col2:
     year = st.number_input("Year", min_value=2020, max_value=2100, value=2025)
