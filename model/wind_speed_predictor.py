@@ -1,4 +1,3 @@
-
 import pandas as pd
 import lightgbm as lgb
 import numpy as np
@@ -7,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
 # 📂 Step 1: Load the dataset
-df = pd.read_csv("cleaned_wind_data.csv")  # Change to your CSV path if needed
+df = pd.read_csv("dataset_with_altitude.csv")  # Change to your CSV path if needed
 
 # 🎯 Step 2: Define input features and target
 features = ['lat', 'lon', 'altitude_m', 'year', 'month', 'day']
