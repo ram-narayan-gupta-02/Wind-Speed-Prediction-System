@@ -80,9 +80,8 @@ The app will open in your browser at **`http://localhost:8501`**.
 
 The model utilizes historical atmospheric data with features like:
 
-- Altitude, Temperature, Dew Point 
 - Latitude & Longitude  
-- Elevation, Sea-Level Pressure, Station Pressure, Max Wind Speed, Gust Speed
+- Altitude, Year, Month, Day
 
 **Output:** Predicted wind speed for valid inputs values.
 
