@@ -60,6 +60,8 @@ with col1:
     if use_city:
         city = st.selectbox("Choose City", list(indian_cities.keys()), index=0)
         lat, lon = indian_cities[city]
+        # 👇 Show coordinates when city is selected
+        st.markdown(f"**Latitude:** {lat}°  \n**Longitude:** {lon}°")
     else:
         lat = st.number_input("Latitude (°)", -90.0, 90.0, 28.61)
         lon = st.number_input("Longitude (°)", -180.0, 180.0, 77.21)
