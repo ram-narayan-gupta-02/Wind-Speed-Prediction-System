@@ -70,7 +70,7 @@ with col1:
 with col2:
     year = st.number_input("Year", min_value=2020, max_value=2100, value=2025)
     month = st.number_input("Month", min_value=1, max_value=12, value=7)
-    day = st.number_input("Day", min_value=1, max_value=31, value=17)
+    day = st.number_input("Day", min_value=1, max_value=31, value=25)
 
 # 🔮 Predict button
 if st.button("🔍 Predict Wind Speed"):
