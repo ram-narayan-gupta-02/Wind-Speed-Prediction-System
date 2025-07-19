@@ -47,6 +47,8 @@ indian_cities = dict(sorted({
 # 📦 Load the trained model
 model = joblib.load("model/wind_speed_model.pkl")
 
+today = datetime.now()
+
 # 🎨 Streamlit UI
 st.set_page_config(page_title="🌬️ Wind Speed Predictor", layout="centered")
 st.title("🌬️ Wind Speed Prediction App")
@@ -68,9 +70,9 @@ with col1:
     alt = st.number_input("Altitude (m)", min_value=0, max_value=26000, value=110, step=100)
 
 with col2:
-    year = st.number_input("Year", min_value=2020, max_value=2100, value=2025)
-    month = st.number_input("Month", min_value=1, max_value=12, value=7)
-    day = st.number_input("Day", min_value=1, max_value=31, value=25)
+    year = st.number_input("Year", min_value=2020, max_value=2100, value=today.year)
+    month = st.number_input("Month", min_value=1, max_value=12, value=today.month)
+    day = st.number_input("Day", min_value=1, max_value=31, value=today.day)
 
 # 🔮 Predict button
 if st.button("🔍 Predict Wind Speed"):
