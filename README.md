@@ -1,5 +1,6 @@
 
 # 🌬️ Wind Speed Prediction System
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 **Live Demo:** [Wind Speed Prediction System 🚀](https://ram-narayan-gupta-02.github.io/Wind-Speed-Prediction-System/)  
 
